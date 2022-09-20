@@ -50,6 +50,7 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Docker push the Feed image
         run: |
+          docker tag simbarashedhave/udagram-api-feed simbarashedhave/udagram-api-feed:v1
           docker push simbarashedhave/udagram-api-feed:v1
           
       - name: Docker push the User image

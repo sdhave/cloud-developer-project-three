@@ -55,12 +55,15 @@ jobs:
           
       - name: Docker push the User image
         run: |
+          docker tag simbarashedhave/udagram-api-user simbarashedhave/udagram-api-user:v1
           docker push simbarashedhave/udagram-api-user:v1
           
       - name: Docker push the Reverse-Proxy image
         run: |
+          docker tag simbarashedhave/udagram-reverseproxy simbarashedhave/udagram-reverseproxy:v1
           docker push simbarashedhave/udagram-reverseproxy:latest
           
       - name: Docker push the Frontend image
         run: |
+          docker tag simbarashedhave/udagram-frontend simbarashedhave/udagram-frontend:v1
           docker push simbarashedhave/udagram-frontend:v1

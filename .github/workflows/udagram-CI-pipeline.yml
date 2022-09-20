@@ -1,0 +1,65 @@
+# This is a basic workflow to help you get started with Actions
+
+name: Udagram CI Pipeline
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ main ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+      
+      - name: Docker login
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: |
+          echo "$DOCKER_PASSWORD" | docker login -u $DOCKER_USERNAME --password-stdin
+          
+      # Runs a single command using the runners shell
+      - name: Docker build the Feed image
+        run: |
+          docker build -t simbarashedhave/udagram-api-feed ./udagram-api-feed .
+          
+      - name: Docker build the User image
+        run: |
+          docker build -t simbarashedhave/udagram-api-user ./udagram-api-user .
+          
+      - name: Docker build the Reverse-Proxy image
+        run: |
+          docker build -t simbarashedhave/udagram-reverseproxy ./udagram-reverseproxy .
+          
+      - name: Docker build the Frontend image
+        run: |
+          docker build -t simbarashedhave/udagram-frontend ./udagram-frontend .
+          
+      # Runs a set of commands using the runners shell
+      - name: Docker push the Feed image
+        run: |
+          docker push simbarashedhave/udagram-api-feed:v1
+          
+      - name: Docker push the User image
+        run: |
+          docker push simbarashedhave/udagram-api-user:v1
+          
+      - name: Docker push the Reverse-Proxy image
+        run: |
+          docker push simbarashedhave/udagram-reverseproxy:latest
+          
+      - name: Docker push the Frontend image
+        run: |
+          docker push simbarashedhave/udagram-frontend:v1

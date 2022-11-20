@@ -65,5 +65,5 @@ jobs:
           
       - name: Docker push the Frontend image
         run: |
-          docker tag simbarashedhave/udagram-frontend simbarashedhave/udagram-frontend:v1
-          docker push simbarashedhave/udagram-frontend:v1
+          docker tag simbarashedhave/udagram-frontend simbarashedhave/udagram-frontend:v2
+          docker push simbarashedhave/udagram-frontend:v2
